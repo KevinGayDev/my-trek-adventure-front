@@ -11,13 +11,14 @@ import Trek from "../components/Trek";
 export default function TreksView() {
   const [treksList, setTreksList] = useState([]);
   const [errorMsg, setErrorMsg] = useState ("");
-  //const [isConnected, setIsConnected] = useState(false);
   const {userLog} = useContext(UserConnect);
 
   useEffect(() => {displayTreksList()}, [])
 
   async function displayTreksList()
   {
+    let token = localStorage.getItem("token");
+
     const options = 
     {
         method: 'GET',
@@ -25,7 +26,7 @@ export default function TreksView() {
         {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            Authorization: "Bearer " + localStorage.getItem("token")
+            Authorization: "Bearer " + token
         }
     };
     const response = await fetch('http://localhost:3001/treks', options);
@@ -41,6 +42,7 @@ export default function TreksView() {
       setTreksList(data);
       setErrorMsg("");
     }
+    console.log(data);
   }
 
   return (
@@ -61,10 +63,11 @@ export default function TreksView() {
             {treksList.map((trek) => (
               <Trek 
                 key = {trek.slug}
+                trekName = {trek.trekName}
                 beginDate = {trek.beginDate} 
                 endDate = {trek.endDate} 
-                parcours = {trek.parcoursID} 
-                guide = {trek.guideID}
+                parcoursID = {trek.parcoursID} 
+                guideID = {trek.guideID}
                 minPlaces = {trek.minPlaces} 
                 maxPlaces = {trek.maxPlaces}
                 slug = {trek.slug}
