@@ -71,13 +71,15 @@ function GuidesView() {
                   password = {guide.password}
                   description = {guide.description}
                   experienceYears = {guide.experienceYears}
-                  profilePicture = {guide.profilePicture}
+                  profilePicture = {guide.guidePicture}
                   state = {guide.state}
                   slug = {guide.slug}
                   />        
               ))}
           </div>
-          <Footer />
+          <div>
+      <Footer />
+      </div>
           </>
         )}
       </div>

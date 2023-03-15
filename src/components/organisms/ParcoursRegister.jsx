@@ -1,5 +1,6 @@
 import Button from "../atoms/Button";
 import Input from "../atoms/Input";
+import "../../styles/styleParcoursRegister.css";
 const { useState } = require("react");
 
 function ParcoursRegister() {
@@ -24,15 +25,16 @@ function ParcoursRegister() {
     e.preventDefault();
     console.log(newParcour);
 
+    const formData = new FormData(e.target);
+
     const token = localStorage.getItem("token");
 
     let options = {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         Authorization: "bearer " + token,
       },
-      body: JSON.stringify(newParcour),
+      body: formData,
     };
 
     // Post data to DB on /login routes
@@ -54,7 +56,7 @@ function ParcoursRegister() {
       description: "",
       price: "",
       parcoursPicture: "",
-      difficulty: 0,
+      difficulty: 1,
     });
   }
 
@@ -64,40 +66,48 @@ function ParcoursRegister() {
       type: "file",
       label: "Photo du parcours",
       value: newParcour.parcoursPicture,
-      required: "{true}",
+      required: true
     },
     {
       name: "name",
       label: "Nom du parcours",
       value: newParcour.name,
-      required: "{true}",
+      required: true
     },
     {
       name: "duration",
       label: "Durée (en jours)",
       value: newParcour.duration,
-      required: "{true}",
+      required: true,
       type: "number",
-      min: 0,
+      min: 0
     },
     {
       name: "price",
       label: "Prix",
       value: newParcour.price,
-      required: "{true}",
+      required: true,
       type: "number",
-      min: 0,
+      min: 0
+    },
+    {
+      name: "difficulty",
+      label: "Difficulté",
+      value: newParcour.difficulty,
+      type: "number",
+      min: 1,
+      max: 3
     },
     {
       name: "description",
       label: "Description",
       value: newParcour.description,
-      required: "{true}",
-    },
+      required: true
+    }
   ];
 
   return (
-    <div>
+    <div className="parcoursregistercontainer">
       <h3>Ajouter un nouveau parcours </h3>
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div>

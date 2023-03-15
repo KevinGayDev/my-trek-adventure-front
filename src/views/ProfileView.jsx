@@ -121,6 +121,7 @@ function ProfileView() {
       {treksList.map((trek) => (
       <GuideDate 
       trekName = {trek.trekName}
+      parcoursID = {trek.parcoursID}
       trekDate = {trek.beginDate}
       trekBookings = {trek.bookings}
       state = {trek.trekState}
@@ -129,7 +130,9 @@ function ProfileView() {
       {deleteAlert &&(
         <PopupAlert type = "votre profil" cancel = {() => cancelDelete()} confirm = {() => confirmDelete()} /> 
       )}
+      <div>
       <Footer />
+      </div>
     </div>
   );
 }
