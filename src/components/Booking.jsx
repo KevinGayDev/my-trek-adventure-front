@@ -6,6 +6,7 @@ function Booking ({userID, date, status})
   const [user, setUser] = useState ([]);
 
   useEffect(() => {getUserFromId()}, [])
+  
 
   async function getUserFromId()
   {
@@ -21,7 +22,7 @@ function Booking ({userID, date, status})
             Authorization: "Bearer " + token         
         }
     };
-    const response = await fetch("http://localhost:3001/clients/get/:" + new URLSearchParams ({id: userID}), options);
+    const response = await fetch(`http://localhost:3001/clients/get/${userID}`, options);
     const data = await response.json();
     if (!data) 
     {
@@ -33,12 +34,16 @@ function Booking ({userID, date, status})
   }
 
   return (
-    <div id="post">
-      <div className="gameInfos">
+    <div className="bookingContainer">
+      <div className="userInfoContainer">
         <p><span className="userInfo">Client </span> {user.firstName} {user.lastName}</p>
+        </div>
+        <div className="userInfoContainer">
         <p><span className="userInfo">Date de la réservation </span> {date}</p>
+        </div>
+        <div className="userInfoContainer">
         <p><span className="userInfo">Statut :</span> {status} </p>
-      </div>
+        </div>
     </div> 
   );
 }

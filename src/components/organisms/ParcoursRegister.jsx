@@ -1,10 +1,10 @@
+import { useState, useEffect } from "react";
 import Button from "../atoms/Button";
 import Input from "../atoms/Input";
-import "../../styles/styleParcoursRegister.css";
-const { useState } = require("react");
+import "../../styles/styleForm.css";
 
 function ParcoursRegister() {
-  const [newParcour, setNewParcour] = useState({
+  const [newParcours, setnewParcours] = useState({
     name: "",
     duration: "",
     description: "",
@@ -13,17 +13,18 @@ function ParcoursRegister() {
     difficulty: 0,
   });
 
+  const [displayform, setDisplayForm] = useState(false);
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
   function handleChange(e) {
-    setNewParcour({ ...newParcour, [e.target.name]: e.target.value });
+    setnewParcours({ ...newParcours, [e.target.name]: e.target.value });
   }
 
   // Submit input to DB to create a new Game
   async function handleSubmit(e) {
     e.preventDefault();
-    console.log(newParcour);
+    console.log(newParcours);
 
     const formData = new FormData(e.target);
 
@@ -50,7 +51,7 @@ function ParcoursRegister() {
 
     setSuccessMessage(data.message);
     setErrorMessage(null);
-    setNewParcour({
+    setnewParcours({
       name: "",
       duration: "",
       description: "",
@@ -64,83 +65,88 @@ function ParcoursRegister() {
     {
       name: "parcoursPicture",
       type: "file",
-      label: "Photo du parcours",
-      value: newParcour.parcoursPicture,
-      required: true
+      label: "Photo : ",
+      value: newParcours.parcoursPicture,
+      required: true,
     },
     {
       name: "name",
-      label: "Nom du parcours",
-      value: newParcour.name,
-      required: true
+      label: "Nom : ",
+      value: newParcours.name,
+      required: true,
     },
     {
       name: "duration",
-      label: "Durée (en jours)",
-      value: newParcour.duration,
+      label: "Durée (en jours) : ",
+      value: newParcours.duration,
       required: true,
       type: "number",
-      min: 0
+      min: 0,
     },
     {
       name: "price",
-      label: "Prix",
-      value: newParcour.price,
+      label: "Prix : ",
+      value: newParcours.price,
       required: true,
       type: "number",
-      min: 0
-    },
-    {
-      name: "difficulty",
-      label: "Difficulté",
-      value: newParcour.difficulty,
-      type: "number",
-      min: 1,
-      max: 3
+      min: 0,
     },
     {
       name: "description",
-      label: "Description",
-      value: newParcour.description,
-      required: true
-    }
+      label: "Description : ",
+      value: newParcours.description,
+      required: true,
+    },
   ];
 
   return (
     <div className="parcoursregistercontainer">
-      <h3>Ajouter un nouveau parcours </h3>
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
-        <div>
-          {itemsArray.map((item) => (
-            <Input
-              name={item.name}
-              label={item.label}
-              value={item.value}
-              required={item.required}
-              type={item.type}
-              onChange={handleChange}
-              min={item.min}
-              max={item.max}
-            />
-          ))}
-
-          <label>Difficulté</label>
-          <select
-            name="difficulty"
-            value={newParcour.difficulty}
-            required="{true}"
-            onChange={handleChange}
-          >
-            <option value="1"> 1 </option>
-            <option value="2"> 2 </option>
-            <option value="3"> 3 </option>
-          </select>
+      {!displayform && (
+        <div id = "buttonForm">
+        <Button onClick={()=>setDisplayForm(!displayform)}>AJOUTER</Button>
         </div>
-
-        <Button> Enregistrer</Button>
-        {errorMessage !== null && <p>{errorMessage}</p>}
-        {successMessage !== null && <p>{successMessage}</p>}
-      </form>
+      )}
+        {displayform && (
+          <>
+          <h3>Ajouter un Parcours </h3>
+          <form onSubmit={handleSubmit} encType="multipart/form-data">
+            <div>
+              {itemsArray.map((item) => (
+                <Input
+                  name={item.name}
+                  label={item.label}
+                  value={item.value}
+                  required={item.required}
+                  type={item.type}
+                  onChange={handleChange}
+                  min={item.min}
+                  max={item.max}
+                />
+              ))}
+              <div className="selectContainer">
+                <label>Difficulté : </label>
+                <select
+                  name="difficulty"
+                  value={newParcours.difficulty}
+                  required="{true}"
+                  onChange={handleChange}
+                >
+                  <option value="0"> Sélectionner une Difficulté </option>
+                  <option value="1"> 1 </option>
+                  <option value="2"> 2 </option>
+                  <option value="3"> 3 </option>
+                </select>
+              </div>
+            </div>
+          <div className="buttonContainer">
+            <Button onClick={()=>setDisplayForm(!displayform)}>ANNULER</Button>
+          < Button>ENREGISTER</Button>
+          </div>
+          {errorMessage !== null && <p>{errorMessage}</p>}
+          {successMessage !== null && <p>{successMessage}</p>}
+        </form>
+        </>
+      )}
     </div>
   );
 }

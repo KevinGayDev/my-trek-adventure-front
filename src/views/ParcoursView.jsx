@@ -6,8 +6,9 @@ import ParcoursRegister from "../components/organisms/ParcoursRegister";
 import Topbar from "../components/Topbar";
 import Footer from "../components/Footer";
 import Parcours from "../components/Parcours";
-import "../styles/styleParcoursView.css";
 import { UserConnect } from "../App";
+
+import "../styles/styleParcoursView.css"
 
 function ParcoursView() {
   const [parcoursList, setParcoursList] = useState([])
@@ -57,8 +58,8 @@ function ParcoursView() {
         <>
         <Topbar />
         {userLog.role !== "guide" && (<ParcoursRegister/>)}
-        <div id = "parcoursList">
-          <p>Liste des parcours</p>
+        <div>
+          <p className="h3parcours">Liste des parcours</p>
             {errorMsg}
             {parcoursList.map((parcours) => (
               <Parcours 
@@ -74,7 +75,7 @@ function ParcoursView() {
             ))}
         </div>
         <div>
-      <Footer />
+        <Footer ClassName= "footer"/>
       </div>
         </>
       )}

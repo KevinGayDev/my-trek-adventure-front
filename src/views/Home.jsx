@@ -5,24 +5,25 @@ import Button from "../components/atoms/Button";
 import Login from "../components/organisms/Login";
 import Topbar from "../components/Topbar";
 import Footer from "../components/Footer";
-import '../styles/home.css';
-import { UserConnect } from "../App";
-
 import Logo_Google from "../pictures/logo_GooglePlay.png";
 import Logo_Apple from "../pictures/logo_AppleStore.png";
-import homebackg from "../pictures/homebackg.jpg"; 
+import { UserConnect } from "../App";
+
+import '../styles/styleHome.css';
 
 function Home() {
+  // useState variables
   const [displayLoginForm, setDisplayLoginForm] = useState(false);
   const {userLog} = useContext(UserConnect);
-  console.log({userLog});
+
   return (
-    <div className="homecontainer" style={{ backgroundImage:`url(${homebackg})` }}>
+  <div id="homecontainer">
       {userLog && (
         <>
           <Topbar />
         </>
       )}
+      <div className="textContainer">
       <p>Vous êtes client ? </p>
       <p>Une application est disponible pour vous sur le Google Play Store pour Android et sur l'Apple Store pour IOS.</p>
       <div>
@@ -32,10 +33,12 @@ function Home() {
       {!userLog && (
         <>
         {!displayLoginForm && (
-          <Button onClick={() => setDisplayLoginForm(true)}> Afficher le formulaire </Button>
+          <div className="loginFormButton">
+            <Button ClassName = "button" onClick={() => setDisplayLoginForm(true)}> CONNEXION </Button>
+          </div>
         )}
         {displayLoginForm && (
-          <Login />
+            <Login />
         )}
         </>
       )}
@@ -51,10 +54,11 @@ function Home() {
           </ul>
         </div>
       )}
-      <div>
-      <Footer />
-      </div>
     </div>
+      <div>
+        <Footer ClassName= "homeFooter"/>
+      </div>
+  </div>
   );
 }
 
